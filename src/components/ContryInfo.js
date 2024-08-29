@@ -23,7 +23,7 @@ const CountryInfo = ({ countryData }) => {
       <p><strong>Area:</strong> {countryData.area} km²</p>
       {location && (
         <div>
-          <h3>Google Maps (Iframe)</h3>
+          <h3>Google Maps</h3>
           <iframe
             src={getMapUrl()}
             title="Google Maps"
