@@ -1,25 +1,31 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { fetchCountryData } from './services/contryservice';
 import './App.css';
+import CountryForm from './components/contryform'
+import CountryInfo from './components/ContryInfo';
+const App = () => {
+  const [countryData, setCountryData] = useState(null);
+  const [error, setError] = useState(null);
 
-function App() {
+  const handleFetchCountryData = async (countryName) => {
+    try {
+      const data = await fetchCountryData(countryName);
+      setCountryData(data);
+      setError(null);
+    } catch (error) {
+      setCountryData(null);
+      setError('Error fetching country data');
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Country Information</h1>
+      <CountryForm onSubmit={handleFetchCountryData} />
+      {error && <p className="error">{error}</p>}
+      {countryData && <CountryInfo countryData={countryData} />}
     </div>
   );
-}
+};
 
 export default App;
