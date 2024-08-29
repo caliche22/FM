@@ -1,9 +1,17 @@
 import React from 'react';
 import MapComponent from './mapComponent';
-import '../styles/CountryInfo.css'
+import enviroment from '../enviroment/enviroment'; // Importa el archivo de entorno
+import '../styles/CountryInfo.css'; // Asegúrate de que este archivo de estilos existe
 
 const CountryInfo = ({ countryData }) => {
   const location = countryData.latlng ? { lat: countryData.latlng[0], lng: countryData.latlng[1] } : null;
+
+  // Función para construir la URL del iframe con las coordenadas
+  const getMapUrl = () => {
+    if (!location) return '';
+    const { lat, lng } = location;
+    return `https://www.google.com/maps/embed/v1/place?q=${lat},${lng}&key=${enviroment.apikeygooglemaps}`;
+  };
 
   return (
     <div className="country-info">
@@ -13,10 +21,26 @@ const CountryInfo = ({ countryData }) => {
       <p><strong>Region:</strong> {countryData.region}</p>
       <p><strong>Capital:</strong> {countryData.capital && countryData.capital[0]}</p>
       <p><strong>Area:</strong> {countryData.area} km²</p>
+
       {location && (
         <div>
-          <h3>Google Maps</h3>
+          <h3>Google Maps (API)</h3>
           <MapComponent location={location} />
+        </div>
+      )}
+
+      {location && (
+        <div>
+          <h3>Google Maps (Iframe)</h3>
+          <iframe
+            src={getMapUrl()}
+            title="Google Maps"
+            width="600"
+            height="450"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+          ></iframe>
         </div>
       )}
     </div>
