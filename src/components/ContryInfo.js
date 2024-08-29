@@ -21,14 +21,6 @@ const CountryInfo = ({ countryData }) => {
       <p><strong>Region:</strong> {countryData.region}</p>
       <p><strong>Capital:</strong> {countryData.capital && countryData.capital[0]}</p>
       <p><strong>Area:</strong> {countryData.area} km²</p>
-
-      {location && (
-        <div>
-          <h3>Google Maps (API)</h3>
-          <MapComponent location={location} />
-        </div>
-      )}
-
       {location && (
         <div>
           <h3>Google Maps (Iframe)</h3>
